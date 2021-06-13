@@ -1,4 +1,4 @@
-# system-monitoring
+# system-monitoring Java简易系统监视器
 Java Swing applet, real-time monitoring system CPU usage and memory usage.
 
 # 项目与工具
