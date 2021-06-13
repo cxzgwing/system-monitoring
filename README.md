@@ -31,3 +31,6 @@ Maven、maven-assembly-plugin、Java 8、jnativehook-2.1.0
 
 # 项目地址
 https://github.com/cxzgwing/system-monitoring
+
+# 博客地址
+https://blog.csdn.net/qq_36533690/article/details/117881862
