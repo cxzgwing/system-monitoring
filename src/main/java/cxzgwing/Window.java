@@ -343,8 +343,8 @@ public class Window extends JFrame implements NativeMouseInputListener {
 
             // 设置鼠标监听，可通过鼠标移动窗体位置
             // 通过系统托盘菜单中的第一个按钮（移动 / 固定）来控制是否能移动窗体
-            FrameDragListener frameDragListener = new FrameDragListener(this, windowMovable,
-                    mouseOnJPopupMenu, mouseClicked, windowMaxX, windowMaxY);
+            FrameDragListener frameDragListener =
+                    new FrameDragListener(this, windowMovable, windowMaxX, windowMaxY);
             this.addMouseListener(frameDragListener);
             this.addMouseMotionListener(frameDragListener);
 
@@ -493,7 +493,7 @@ public class Window extends JFrame implements NativeMouseInputListener {
     /**
      * 设置窗体默认位置
      */
-    private void setDefaultLocation() throws Exception {
+    private void setDefaultLocation() {
         // 设置窗口相对于指定组件的位置：置于屏幕的中央
         // frame.setLocationRelativeTo(null);
 

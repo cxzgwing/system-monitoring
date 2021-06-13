@@ -6,8 +6,6 @@ import java.awt.event.MouseEvent;
 
 import javax.swing.*;
 
-import cxzgwing.judgement.MouseClicked;
-import cxzgwing.judgement.MouseOnJPopupMenu;
 import cxzgwing.judgement.WindowMovable;
 
 public class FrameDragListener extends MouseAdapter {
@@ -16,21 +14,15 @@ public class FrameDragListener extends MouseAdapter {
     private WindowMovable windowMovable;
     private Point mouseDownCompCoords = null;
 
-    private MouseOnJPopupMenu mouseOnJPopupMenu;
-    private MouseClicked mouseClicked;
-
     // 窗体位置最大横坐标
     private int windowMaxX;
     // 窗体位置最大纵坐标
     private int windowMaxY;
 
-    public FrameDragListener(JFrame frame, WindowMovable windowMovable,
-            MouseOnJPopupMenu mouseOnJPopupMenu, MouseClicked mouseClicked, int windowMaxX,
+    public FrameDragListener(JFrame frame, WindowMovable windowMovable, int windowMaxX,
             int windowMaxY) {
         this.frame = frame;
         this.windowMovable = windowMovable;
-        this.mouseOnJPopupMenu = mouseOnJPopupMenu;
-        this.mouseClicked = mouseClicked;
         this.windowMaxX = windowMaxX;
         this.windowMaxY = windowMaxY;
     }
