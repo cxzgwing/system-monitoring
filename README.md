@@ -1,5 +1,8 @@
-# system-monitoring Java简易系统监视器
+# Java简易系统监视器 system-monitoring 
+
 Java Swing applet, real-time monitoring system CPU usage and memory usage.
+
+Java Swing小程序，实时监测系统CPU使用率和内存使用率。
 
 # 项目与工具
 Maven、maven-assembly-plugin、Java 8、jnativehook-2.1.0
