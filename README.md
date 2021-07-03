@@ -37,3 +37,11 @@ https://github.com/cxzgwing/system-monitoring
 
 # 博客地址
 https://blog.csdn.net/qq_36533690/article/details/117881862
+
+# 分支说明：
+**main**：主分支，稳定版本代码，功能将落后于develop分支。
+
+**develop**：开发分支，新功能优先上该分支，待自我验证运行一段时间无重大问题后，将更新至main分支。
+
+**reduce**：精简分支，只保留最基本功能，部分用于优化用户体验但会增加系统开销的功能将去除。
+
