@@ -3,7 +3,6 @@ package cxzgwing;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.geom.RoundRectangle2D;
 import java.lang.management.ManagementFactory;
 import java.time.Clock;
 import java.util.logging.Level;
@@ -15,7 +14,6 @@ import org.jnativehook.GlobalScreen;
 import org.jnativehook.mouse.NativeMouseEvent;
 import org.jnativehook.mouse.NativeMouseInputListener;
 
-import com.sun.awt.AWTUtilities;
 import com.sun.management.OperatingSystemMXBean;
 
 import cxzgwing.judgement.MouseClicked;
@@ -49,11 +47,12 @@ public class Window extends JFrame implements NativeMouseInputListener {
     private JMenuItem movableButton;
     private JMenuItem exitButton;
     private JMenuItem cancelButton;
+    private JMenuItem refreshButton;
 
     // jPopupMenu width
     private static final int WIDTH = 75;
     // jPopupMenu height
-    private static final int HEIGHT = 68;
+    private static final int HEIGHT = 89;
 
     // 窗体位置最大横坐标
     private int windowMaxX;
@@ -118,21 +117,79 @@ public class Window extends JFrame implements NativeMouseInputListener {
         movableButton = new JMenuItem("移动");
         movableButton.setFont(font);
         setMovableButtonMouseListener();
+        jPopupMenu.add(movableButton);
+
+        // “刷新”按钮
+        refreshButton = new JMenuItem("刷新");
+        refreshButton.setFont(font);
+        setRefreshButtonMouseListener();
+        jPopupMenu.add(refreshButton);
 
         // “取消”按钮
         cancelButton = new JMenuItem("取消");
         cancelButton.setFont(font);
         setCancelButtonMouseListener();
+        jPopupMenu.add(cancelButton);
 
         // “退出程序”按钮
         exitButton = new JMenuItem("退出程序");
         exitButton.setFont(font);
         setExitButtonMouseListener();
-
-        // 将按钮添加至菜单
-        jPopupMenu.add(movableButton);
-        jPopupMenu.add(cancelButton);
         jPopupMenu.add(exitButton);
+    }
+
+    /**
+     * 设置“刷新”按钮鼠标左击监听
+     */
+    private void setRefreshButtonMouseListener() {
+        refreshButton.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                switch (e.getButton()) {
+                    // JMenuItem被鼠标左键点击
+                    case MouseEvent.BUTTON1: {
+                        refreshWindow();
+                        hideMenu();
+                        refreshButton.setBackground(new Color(238, 238, 238));
+                        break;
+                    }
+                    default: {
+                        break;
+                    }
+                }
+            }
+
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                // 设置鼠标悬浮时按钮的背景颜色
+                refreshButton.setBackground(Color.GRAY);
+                // 设置鼠标悬浮于菜单之上
+                mouseOnJPopupMenu.setValue(true);
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                // 设置鼠标离开后按钮的背景颜色
+                refreshButton.setBackground(new Color(238, 238, 238));
+                // 设置鼠标未悬浮于菜单之上
+                mouseOnJPopupMenu.setValue(false);
+            }
+        });
+    }
+
+    /**
+     * 刷新窗口
+     */
+    private void refreshWindow() {
+        this.setVisible(false);
+        this.setVisible(true);
+    }
+
+    /**
+     * 隐藏菜单
+     */
+    private void hideMenu() {
+        jPopupMenu.setVisible(false);
     }
 
     /**
@@ -146,8 +203,8 @@ public class Window extends JFrame implements NativeMouseInputListener {
                     // JMenuItem被鼠标左键点击
                     case MouseEvent.BUTTON1: {
                         if (jPopupMenu.isVisible()) {
-                            cancelButton.setBackground(Color.WHITE);
-                            jPopupMenu.setVisible(false);
+                            cancelButton.setBackground(new Color(238, 238, 238));
+                            hideMenu();
                         }
                         break;
                     }
@@ -169,7 +226,7 @@ public class Window extends JFrame implements NativeMouseInputListener {
             @Override
             public void mouseExited(MouseEvent e) {
                 // 设置鼠标离开后按钮的背景颜色
-                cancelButton.setBackground(Color.WHITE);
+                cancelButton.setBackground(new Color(238, 238, 238));
                 // 设置鼠标未悬浮于菜单之上
                 mouseOnJPopupMenu.setValue(false);
             }
@@ -220,8 +277,8 @@ public class Window extends JFrame implements NativeMouseInputListener {
                         } else {
                             movableButton.setText("移动");
                         }
-                        movableButton.setBackground(Color.WHITE);
-                        jPopupMenu.setVisible(false);
+                        movableButton.setBackground(new Color(238, 238, 238));
+                        hideMenu();
                         break;
                     }
                     default: {
@@ -242,7 +299,7 @@ public class Window extends JFrame implements NativeMouseInputListener {
             @Override
             public void mouseExited(MouseEvent e) {
                 // 设置鼠标离开后按钮的背景颜色
-                movableButton.setBackground(Color.WHITE);
+                movableButton.setBackground(new Color(238, 238, 238));
                 // 设置鼠标未悬浮于菜单之上
                 mouseOnJPopupMenu.setValue(false);
             }
@@ -281,7 +338,7 @@ public class Window extends JFrame implements NativeMouseInputListener {
             @Override
             public void mouseExited(MouseEvent e) {
                 // 设置鼠标离开后按钮的背景颜色
-                exitButton.setBackground(Color.WHITE);
+                exitButton.setBackground(new Color(238, 238, 238));
                 // 设置鼠标未悬浮于菜单之上
                 mouseOnJPopupMenu.setValue(false);
             }
@@ -296,12 +353,6 @@ public class Window extends JFrame implements NativeMouseInputListener {
             // 隐藏任务栏图标
             this.setType(JFrame.Type.UTILITY);
 
-            java.awt.Window win = new java.awt.Window(this);
-            // 设置为swing默认窗体
-            JFrame.setDefaultLookAndFeelDecorated(true);
-            // 设置圆角
-            AWTUtilities.setWindowShape(win, new RoundRectangle2D.Double(0.0D, 0.0D, win.getWidth(),
-                    win.getHeight(), 26.0D, 26.0D));
             // 设置窗口置顶
             this.setAlwaysOnTop(true);
             // 设置网格包布局
@@ -524,7 +575,7 @@ public class Window extends JFrame implements NativeMouseInputListener {
         if (MouseEvent.BUTTON1 == button) {
             mouseClicked.setValue(true);
             if (!mouseOnJPopupMenu.isTrue() && mouseClicked.isTrue() && jPopupMenu.isVisible()) {
-                jPopupMenu.setVisible(false);
+                hideMenu();
                 // 菜单隐藏后，需要初始化判断状态，设置鼠标未悬浮于菜单之上、鼠标未点击
                 AppUtil.initDefaultStatus(mouseOnJPopupMenu, mouseClicked);
             }
