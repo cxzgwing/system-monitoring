@@ -13,6 +13,10 @@ Maven、maven-assembly-plugin、Java 8、jnativehook-2.1.0
 ![image](https://user-images.githubusercontent.com/41880446/121800680-df985e00-cc65-11eb-8b23-a47711509398.png)
 ![image](https://user-images.githubusercontent.com/41880446/121800704-f474f180-cc65-11eb-9727-4b7694c10d71.png)
 
+# 最新版本菜单预览
+![图片](https://user-images.githubusercontent.com/41880446/124697063-c14a1900-df18-11eb-9c95-d26157a0784a.png)
+
+
 
 # 功能说明
 <ol>
