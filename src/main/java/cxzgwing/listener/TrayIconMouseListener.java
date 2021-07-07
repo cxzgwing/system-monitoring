@@ -25,6 +25,8 @@ public class TrayIconMouseListener extends MouseAdapter {
         switch (e.getButton()) {
             // 托盘图标被鼠标右键被点击
             case MouseEvent.BUTTON3: {
+                // System.out.println("jPopupMenu Origin Width=" + jPopupMenu.getWidth()
+                // + ", jPopupMenu Origin Height=" + jPopupMenu.getHeight());
                 jPopupMenu.setLocation(e.getX() - jPopupMenuWidth, e.getY() - jPopupMenuHeight);
                 jPopupMenu.setVisible(true);
                 break;
