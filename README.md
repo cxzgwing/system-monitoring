@@ -1,5 +1,7 @@
 # Java简易系统监视器 system-monitoring 
 
+![image](https://img.shields.io/github/license/cxzgwing/system-monitoring?style=flat-square)
+
 Java Swing applet, real-time monitoring system CPU usage and memory usage.
 
 Java Swing小程序，实时监测系统CPU使用率和内存使用率。
