@@ -4,27 +4,18 @@ import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
-import javax.swing.*;
-
+import cxzgwing.Window;
 import cxzgwing.judgement.WindowMovable;
 
 public class FrameDragListener extends MouseAdapter {
 
-    private final JFrame frame;
+    private final Window window;
     private WindowMovable windowMovable;
     private Point mouseDownCompCoords = null;
 
-    // 窗体位置最大横坐标
-    private int windowMaxX;
-    // 窗体位置最大纵坐标
-    private int windowMaxY;
-
-    public FrameDragListener(JFrame frame, WindowMovable windowMovable, int windowMaxX,
-            int windowMaxY) {
-        this.frame = frame;
+    public FrameDragListener(Window window, WindowMovable windowMovable) {
+        this.window = window;
         this.windowMovable = windowMovable;
-        this.windowMaxX = windowMaxX;
-        this.windowMaxY = windowMaxY;
     }
 
     @Override
@@ -52,29 +43,31 @@ public class FrameDragListener extends MouseAdapter {
         if (x < 0) {
             x = 0;
         }
+        int windowMaxX = window.getWindowMaxX();
         if (x > windowMaxX) {
             x = windowMaxX;
         }
         if (y < 0) {
             y = 0;
         }
+        int windowMaxY = window.getWindowMaxY();
         if (y > windowMaxY) {
             y = windowMaxY;
         }
-        frame.setLocation(x, y);
+        window.setLocation(x, y);
     }
 
     @Override
     public void mouseEntered(MouseEvent e) {
         if (windowMovable.isTrue()) {
-            frame.setCursor(new Cursor(Cursor.MOVE_CURSOR));
+            window.setCursor(new Cursor(Cursor.MOVE_CURSOR));
         }
     }
 
     @Override
     public void mouseExited(MouseEvent e) {
         if (windowMovable.isTrue()) {
-            frame.setCursor(Cursor.getDefaultCursor());
+            window.setCursor(Cursor.getDefaultCursor());
         }
     }
 
