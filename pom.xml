@@ -6,7 +6,7 @@
 
     <groupId>cxzgwing</groupId>
     <artifactId>system-monitoring</artifactId>
-    <version>1.2.2-SNAPSHOT</version>
+    <version>2.0.0</version>
 
     <name>system-monitoring</name>
 
@@ -17,11 +17,11 @@
     </properties>
 
     <dependencies>
-        <!-- https://mvnrepository.com/artifact/com.1stleg/jnativehook -->
+        <!-- https://mvnrepository.com/artifact/net.java.dev.jna/jna -->
         <dependency>
-            <groupId>com.1stleg</groupId>
-            <artifactId>jnativehook</artifactId>
-            <version>2.1.0</version>
+            <groupId>net.java.dev.jna</groupId>
+            <artifactId>jna</artifactId>
+            <version>5.5.0</version>
         </dependency>
     </dependencies>
 

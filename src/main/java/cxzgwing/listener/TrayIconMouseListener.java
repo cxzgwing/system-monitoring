@@ -3,20 +3,16 @@ package cxzgwing.listener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
-import javax.swing.*;
+import cxzgwing.Menu;
 
 /**
  * 任务栏图标鼠标监听
  */
 public class TrayIconMouseListener extends MouseAdapter {
-    private JPopupMenu jPopupMenu;
-    private int jPopupMenuWidth;
-    private int jPopupMenuHeight;
+    private Menu menu;
 
-    public TrayIconMouseListener(JPopupMenu jPopupMenu, int jPopupMenuWidth, int jPopupMenuHeight) {
-        this.jPopupMenu = jPopupMenu;
-        this.jPopupMenuWidth = jPopupMenuWidth;
-        this.jPopupMenuHeight = jPopupMenuHeight;
+    public TrayIconMouseListener(Menu menu) {
+        this.menu = menu;
     }
 
     // 仅监听鼠标点击事件
@@ -25,10 +21,7 @@ public class TrayIconMouseListener extends MouseAdapter {
         switch (e.getButton()) {
             // 托盘图标被鼠标右键被点击
             case MouseEvent.BUTTON3: {
-                // System.out.println("jPopupMenu Origin Width=" + jPopupMenu.getWidth()
-                // + ", jPopupMenu Origin Height=" + jPopupMenu.getHeight());
-                jPopupMenu.setLocation(e.getX() - jPopupMenuWidth, e.getY() - jPopupMenuHeight);
-                jPopupMenu.setVisible(true);
+                menu.display(e);
                 break;
             }
             default: {
