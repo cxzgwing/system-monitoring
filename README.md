@@ -11,6 +11,11 @@ Java简易系统监视器system-monitoring：实时显示CPU使用率、内存�
 # 项目与工具
 Maven、Java 8、Swing、maven-assembly-plugin（jar-with-dependencies）、jna、dll
 
+# JNA
+https://github.com/java-native-access/jna
+
+https://github.com/java-native-access/jna/blob/master/www/WindowsDevelopmentEnvironment.md
+
 # 预览图
 ![Snipaste_2021-06-13_16-24-00](https://user-images.githubusercontent.com/41880446/121800502-effc0900-cc64-11eb-8b6b-772698fc57be.jpg)
 ![image](https://user-images.githubusercontent.com/41880446/121800529-13bf4f00-cc65-11eb-9bcc-5937cd314cfd.png)
