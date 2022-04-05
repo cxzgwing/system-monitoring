@@ -1,9 +1,13 @@
 package cxzgwing.task;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import cxzgwing.label.impl.BatteryLabel;
 import cxzgwing.utils.AppUtil;
 
 public class BatteryMonitorTask implements Runnable {
+    private static final Logger logger = LoggerFactory.getLogger(BatteryMonitorTask.class);
     private BatteryLabel batteryLabel;
 
     public BatteryMonitorTask(BatteryLabel batteryLabel) {
@@ -19,7 +23,7 @@ public class BatteryMonitorTask implements Runnable {
             try {
                 Thread.sleep(15 * 1000);
             } catch (InterruptedException e) {
-                e.printStackTrace();
+                logger.error("BatteryMonitorTask error", e);
                 break;
             }
         }

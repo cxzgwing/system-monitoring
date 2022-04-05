@@ -1,11 +1,16 @@
 package cxzgwing.task;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import cxzgwing.label.impl.CpuLabel;
 import cxzgwing.label.impl.MemoryLabel;
 import cxzgwing.label.impl.TimeLabel;
 import cxzgwing.utils.AppUtil;
 
 public class CpuMemoryTimeMonitorTask implements Runnable {
+    private static final Logger logger = LoggerFactory.getLogger(CpuMemoryTimeMonitorTask.class);
+
     private CpuLabel cpuLabel;
     private MemoryLabel memoryLabel;
     private TimeLabel timeLabel;
@@ -32,7 +37,7 @@ public class CpuMemoryTimeMonitorTask implements Runnable {
             try {
                 Thread.sleep(1000);
             } catch (InterruptedException e) {
-                e.printStackTrace();
+                logger.error("CpuMemoryTimeMonitorTask error", e);
                 break;
             }
         }

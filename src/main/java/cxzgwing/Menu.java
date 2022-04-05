@@ -9,16 +9,22 @@ import javax.swing.*;
 import javax.swing.event.PopupMenuEvent;
 import javax.swing.event.PopupMenuListener;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import cxzgwing.judgement.WindowMovable;
 import cxzgwing.label.LabelAdaptor;
 import cxzgwing.label.impl.BatteryLabel;
 import cxzgwing.label.impl.CpuLabel;
 import cxzgwing.label.impl.MemoryLabel;
 import cxzgwing.label.impl.TimeLabel;
+import cxzgwing.model.Properties;
 import cxzgwing.utils.AppUtil;
-import cxzgwing.utils.LabelLayout;
+import cxzgwing.utils.Constants;
 
 public class Menu {
+    private static final Logger logger = LoggerFactory.getLogger(Menu.class);
+
     private JFrame jFrame;
     private JPopupMenu jPopupMenu;
     private Font font;
@@ -33,8 +39,12 @@ public class Menu {
     private static final int WIDTH = 75;
     private static final int HEIGHT = 110;
 
+    private Properties properties;
+
     public Menu(Window window, WindowMovable windowMovable, CpuLabel cpuLabel,
-            MemoryLabel memoryLabel, BatteryLabel batteryLabel, TimeLabel timeLabel) {
+            MemoryLabel memoryLabel, BatteryLabel batteryLabel, TimeLabel timeLabel,
+            Properties properties) {
+        this.properties = properties;
         this.window = window;
         this.windowMovable = windowMovable;
         this.cpuLabel = cpuLabel;
@@ -108,7 +118,7 @@ public class Menu {
 
         JCheckBox cpuJCheckBox = new JCheckBox("CPU");
         cpuJCheckBox.setFont(font);
-        cpuJCheckBox.setSelected(true);
+        cpuJCheckBox.setSelected(properties.isCpuDisplay());
         cpuJCheckBox.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseReleased(MouseEvent e) {
@@ -118,7 +128,7 @@ public class Menu {
 
         JCheckBox memoryJCheckBox = new JCheckBox("内存");
         memoryJCheckBox.setFont(font);
-        memoryJCheckBox.setSelected(true);
+        memoryJCheckBox.setSelected(properties.isMemoryDisplay());
         memoryJCheckBox.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseReleased(MouseEvent e) {
@@ -128,7 +138,7 @@ public class Menu {
 
         JCheckBox batteryJCheckBox = new JCheckBox("电量");
         batteryJCheckBox.setFont(font);
-        batteryJCheckBox.setSelected(true);
+        batteryJCheckBox.setSelected(properties.isBatteryDisplay());
         batteryJCheckBox.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseReleased(MouseEvent e) {
@@ -138,7 +148,7 @@ public class Menu {
 
         JCheckBox timeJCheckBox = new JCheckBox("时间");
         timeJCheckBox.setFont(font);
-        timeJCheckBox.setSelected(true);
+        timeJCheckBox.setSelected(properties.isTimeDisplay());
         timeJCheckBox.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseReleased(MouseEvent e) {
@@ -163,6 +173,19 @@ public class Menu {
         windowRemoveAll();
         reloadWindow();
         refreshWindow();
+        if (label instanceof CpuLabel) {
+            properties.put(Constants.FIELD_CPU, isSelected);
+        }
+        if (label instanceof MemoryLabel) {
+            properties.put(Constants.FIELD_MEMORY, isSelected);
+        }
+        if (label instanceof BatteryLabel) {
+            properties.put(Constants.FIELD_BATTERY, isSelected);
+        }
+        if (label instanceof TimeLabel) {
+            properties.put(Constants.FIELD_TIME, isSelected);
+        }
+        AppUtil.writeFile(AppUtil.getPropertiesPath(), properties, false);
     }
 
     private void reloadWindow() {
@@ -175,28 +198,28 @@ public class Menu {
         // 由于不显示标签时，不读取相关数据，所以重新显示时需要更新数据
         if (cpuLabel.isDisplay()) {
             cpuLabel.setText(AppUtil.getSystemCpuLoad());
-            if (LabelLayout.DOUBLE == window.getLabelLayout() && !Objects.isNull(gridLayout)) {
+            if (properties.isDoubleLayout() && !Objects.isNull(gridLayout)) {
                 gridLayout.addLayoutComponent("cpuLabel", cpuLabel);
             }
             window.add(cpuLabel);
         }
         if (memoryLabel.isDisplay()) {
             memoryLabel.setText(AppUtil.getMemoryLoad());
-            if (LabelLayout.DOUBLE == window.getLabelLayout() && !Objects.isNull(gridLayout)) {
+            if (properties.isDoubleLayout() && !Objects.isNull(gridLayout)) {
                 gridLayout.addLayoutComponent("memoryLabel", memoryLabel);
             }
             window.add(memoryLabel);
         }
         if (batteryLabel.isDisplay()) {
             batteryLabel.setText(AppUtil.getBatteryPercent());
-            if (LabelLayout.DOUBLE == window.getLabelLayout() && !Objects.isNull(gridLayout)) {
+            if (properties.isDoubleLayout() && !Objects.isNull(gridLayout)) {
                 gridLayout.addLayoutComponent("batteryLabel", batteryLabel);
             }
             window.add(batteryLabel);
         }
         if (timeLabel.isDisplay()) {
             timeLabel.setText(AppUtil.getTime());
-            if (LabelLayout.DOUBLE == window.getLabelLayout() && !Objects.isNull(gridLayout)) {
+            if (properties.isDoubleLayout() && !Objects.isNull(gridLayout)) {
                 gridLayout.addLayoutComponent("timeLabel", timeLabel);
             }
             window.add(timeLabel);
@@ -221,32 +244,8 @@ public class Menu {
     }
 
     private GridLayout updateWindowLabelLayout(int count) {
-        GridLayout gridLayout = null;
-        if (LabelLayout.SINGLE == window.getLabelLayout()) {
-            // 单列布局
-            window.setSize(window.getWidth(), 20 * count);
-        } else if (LabelLayout.DOUBLE == window.getLabelLayout()) {
-            // 双列布局
-            switch (count) {
-                case 1:
-                    window.setLayout(gridLayout = new GridLayout(1, 1));
-                    window.setSize(75, 20);
-                    break;
-                case 2:
-                    window.setLayout(gridLayout = new GridLayout(1, 2));
-                    window.setSize(150, 20);
-                    break;
-                case 3:
-                case 4:
-                    window.setLayout(gridLayout = new GridLayout(2, 2));
-                    window.setSize(150, 40);
-                    break;
-                default:
-                    window.setLayout(gridLayout = new GridLayout(2, 2));
-                    window.setSize(150, 40);
-            }
-        }
-        AppUtil.initWindowLocation(window);
+        GridLayout gridLayout = AppUtil.initLayout(count, properties, window);
+        AppUtil.initWindowLocation(window, properties);
         return gridLayout;
     }
 
@@ -265,11 +264,12 @@ public class Menu {
         singleJMenuItem.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseReleased(MouseEvent e) {
-                window.setLabelLayout(LabelLayout.SINGLE);
+                properties.setLayout(Constants.Single_Layout);
+                AppUtil.writeFile(AppUtil.getPropertiesPath(), properties, false);
                 window.setSize(85, 80);
                 window.setLayout(new FlowLayout(FlowLayout.LEFT, 5, 1));
                 reloadWindow();
-                AppUtil.initWindowLocation(window);
+                AppUtil.initWindowLocation(window, properties);
                 refreshWindow();
             }
         });
@@ -277,11 +277,12 @@ public class Menu {
         doubleJMenuItem.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseReleased(MouseEvent e) {
-                window.setLabelLayout(LabelLayout.DOUBLE);
+                properties.setLayout(Constants.Double_Layout);
+                AppUtil.writeFile(AppUtil.getPropertiesPath(), properties, false);
                 window.setSize(150, 40);
                 window.setLayout(new GridLayout(2, 2));
                 reloadWindow();
-                AppUtil.initWindowLocation(window);
+                AppUtil.initWindowLocation(window, properties);
                 refreshWindow();
             }
         });

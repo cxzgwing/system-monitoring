@@ -5,6 +5,7 @@
 
 # Log file
 *.log
+/logs
 
 # BlueJ files
 *.ctxt
@@ -71,3 +72,4 @@ $RECYCLE.BIN/
 out
 gen
 .idea/
+logs/

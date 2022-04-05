@@ -4,23 +4,42 @@ import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import cxzgwing.Window;
 import cxzgwing.judgement.WindowMovable;
+import cxzgwing.model.Properties;
+import cxzgwing.utils.AppUtil;
 
 public class FrameDragListener extends MouseAdapter {
+    private static final Logger logger = LoggerFactory.getLogger(FrameDragListener.class);
 
     private final Window window;
     private WindowMovable windowMovable;
+    private Properties properties;
     private Point mouseDownCompCoords = null;
 
-    public FrameDragListener(Window window, WindowMovable windowMovable) {
+    public FrameDragListener(Window window, WindowMovable windowMovable, Properties properties) {
         this.window = window;
         this.windowMovable = windowMovable;
+        this.properties = properties;
     }
 
     @Override
     public void mouseReleased(MouseEvent e) {
         mouseDownCompCoords = null;
+        if (this.windowMovable.isTrue()
+                && (properties.getX() != window.getX() || properties.getY() != window.getY())) {
+            properties.setX(window.getX());
+            properties.setY(window.getY());
+            try {
+                AppUtil.writeFile(AppUtil.getPropertiesPath(), properties, false);
+            } catch (Exception ex) {
+                ex.printStackTrace();
+                logger.error("mouseReleased error", ex);
+            }
+        }
     }
 
     @Override
