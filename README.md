@@ -6,7 +6,7 @@ Java Swing applet, real-time monitoring system CPU usage and memory usage.
 
 Java Swing小程序，实时监测系统CPU使用率和内存使用率。
 
-Java简易系统监视器system-monitoring：实时显示CPU使用率、内存使用率、笔记本电脑电池剩余电量、时间（时、分、秒）。创建系统托盘，设置系统托盘菜单，窗体置顶显示。通过jna调用dll文件读取电池数据。
+Java简易系统监视器system-monitoring：实时显示CPU使用率、内存使用率、电脑电池剩余电量、时间（时、分、秒）。创建系统托盘，设置系统托盘菜单，窗体置顶显示。通过jna调用dll文件读取电池数据。
 
 # 项目与工具
 Maven、Java 8、Swing、maven-assembly-plugin（jar-with-dependencies）、jna、dll
@@ -53,22 +53,32 @@ https://github.com/java-native-access/jna/blob/master/www/WindowsDevelopmentEnvi
 5 窗体大小可根据显示的参数个数自动适配。
 
 6 点击系统托盘后，弹出多级菜单，当鼠标点击非菜单区域，弹出的多级菜单会自动消失。（基于JFrame+JPopupMenu实现）
+
+7 记忆功能：当修改布局、显示标签以及移动窗体位置之后，会记录修改后的状态，以便在下次启动时恢复该状态。
  
 # 项目说明
 <ol>
   <li>窗体使用JFrame，且自定义样式。</li>
   <li>（旧版）菜单栏使用JPopupMenu，“当菜单栏显示时，鼠标左击菜单栏之外的区域也可隐藏菜单栏”的技术点为jnativehook全局监听鼠标左击。详细说明：由于“创建点击图标时的弹出菜单方案二”中，弹出的菜单无法消失，会一直显示，所以需要根据鼠标是否悬浮于菜单上以及鼠标左键是否点击来判断是否需要隐藏菜单：若鼠标不在菜单上并且鼠标左键点击了并且菜单是显示状态，则隐藏菜单。默认设置为鼠标未悬浮于菜单之上、鼠标未点击、菜单未显示。其中，鼠标是否悬浮于菜单上的判断条件包含鼠标是否悬浮于菜单上、鼠标是否悬浮于按钮上。</li>
   <li>（旧版）菜单栏创建方案有两种，此项目使用的是方案二JPopupMenu，方案一PopupMenu的代码也保留在项目中（已注释）。简要说明采用方案二的原因：使用PopupMenu创建的菜单栏，无法添加鼠标监听，局限性太大。</li>
-  <li>v2.0.0版本采用JFrame+JPopupMenu实现系统托盘多级菜单</li>
+  <li>v2.0.0+版本采用JFrame+JPopupMenu实现系统托盘多级菜单</li>
 </ol>
 
 # 项目地址
 https://github.com/cxzgwing/system-monitoring
 
-# 博客地址
+# 相关博客
+[1] 晨曦之光Wing.Java简易系统监视器.2021-06-13 18:08:36
 https://blog.csdn.net/qq_36533690/article/details/117881862
 
+[2] 晨曦之光Wing.Java简易系统监视器system-monitoring.2022-01-18 16:15:59
 https://blog.csdn.net/qq_36533690/article/details/122559092
+
+[3] 晨曦之光Wing.jar调用dll文件提示找不到指定的模块Unable to load library.2022-01-26 23:00:10
+https://blog.csdn.net/qq_36533690/article/details/122709535
+
+[4] 晨曦之光Wing.Java简易系统监视器system-monitoring系列：增加记忆功能.2022-04-05 22:22:27
+https://blog.csdn.net/qq_36533690/article/details/123978313
 
 # 分支说明：
 **main**：主分支。
