@@ -80,7 +80,7 @@ https://blog.csdn.net/qq_36533690/article/details/122709535
 [4] 晨曦之光Wing.Java简易系统监视器system-monitoring系列：增加记忆功能.2022-04-05 22:22:27
 https://blog.csdn.net/qq_36533690/article/details/123978313
 
-# 分支说明：
+# 分支说明
 **main**：主分支。
 
 **first**：最初版本分支，为防止到最后被改得“面目全非”、不便于查找，特别新建该分支，保留最初版本。
